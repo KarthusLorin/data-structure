@@ -1,5 +1,5 @@
 /**
- * @name: 标准链表LinkedList
+ * @name: 标准链表LinkedList（无头尾指针）
  */
 
 class LinkedList {

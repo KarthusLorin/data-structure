@@ -6,7 +6,6 @@
 class LinkedList {
   constructor () {
     this.dummyHead = new Node(null, null)
-    this.head = null
     this.size = 0
   }
 
