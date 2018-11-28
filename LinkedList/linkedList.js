@@ -4,6 +4,7 @@
 
 class LinkedList {
   constructor () {
+    this.dummyHead = new Node(null, null)
     this.head = null
     this.size = 0
   }
@@ -18,39 +19,107 @@ class LinkedList {
     return this.size === 0
   }
 
-  // 在链表头添加新的元素e
-  addFirst (e) {
-    // let node = new Node(e)
-    // node.next = this.head
-    // this.head = node
-    this.head = new Node(e, this.head)
-    this.size++
-  }
-
   // 在链表的index位置添加新的元素e
   add (index, e) {
     if (index < 0 || index > this.size) {
       throw new Error('Add Fail, Illegal index')
     }
-    // 链表头没有prev，特殊处理
-    if (index === 0) {
-      this.addFirst(e)
-    } else {
-      let prev = this.head
-      for (let i = 0; i < index - 1; i++) {
-        prev = prev.next
-      }
-      // let node = new Node(e)
-      // node.next = prev.next
-      // prev.next = node
-      prev.next = new Node(e, prev.next)
-      this.size++
+    let prev = this.dummyHead
+    for (let i = 0; i < index; i++) {
+      prev = prev.next
     }
+    // let node = new Node(e)
+    // node.next = prev.next
+    // prev.next = node
+    prev.next = new Node(e, prev.next)
+    this.size++
+  }
+
+  // 在链表头添加新的元素e
+  addFirst (e) {
+    this.add(0, e)
   }
 
   // 在链表末尾添加新的元素e
   addLast (e) {
     this.add(this.size, e)
+  }
+
+  // 获得链表的第index个位置的元素
+  get (index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error('Get failed, Illegal index')
+    }
+
+    let cur = this.dummyHead.next
+    for (let i = 0; i < index; i++) {
+      cur = cur.next
+    }
+    return cur.e
+  }
+
+  // 获得链表的第一个元素
+  getFirst () {
+    return this.get(0)
+  }
+
+  // 获得链表的最后一个元素
+  getLast () {
+    return this.get(this.size - 1)
+  }
+
+  // 修改链表的第index个位置的元素为e
+  set (index, e) {
+    if (index < 0 || index >= this.size) {
+      throw new Error('Update failed, Illegal index')
+    }
+
+    let cur = this.dummyHead.next
+    for (let i = 0; i < index; i++) {
+      cur = cur.next
+    }
+    cur.e = e
+  }
+
+  // 查找链表中是否有元素e
+  contains (e) {
+    let cur = this.dummyHead.next
+
+    while (cur !== null) {
+      if (cur.e = e) {
+        return true
+      }
+      cur = cur.next
+    }
+    return false
+  }
+
+  // 从链表中删除第index个元素，返回删除元素
+  remove (index) {
+    if (index < 0 || index >= this.size) {
+      throw new Error('Remove failed, Illegal index')
+    }
+
+    let prev = this.dummyHead
+    for (let i = 0; i < index; i++) {
+      prev = prev.next
+    }
+    let retNode = prev.next
+    prev.next = retNode.next
+    retNode.next = null
+    this.size--
+
+    return retNode.e
+  }
+
+  // 从链表中删除第一个元素，返回删除元素
+  removeFirst () {
+    return this.remove(0)
+  }
+
+  // 从链表中删除最后一个元素
+  removeLast () {
+    return this.remove(this.size - 1)
   }
 }
 
