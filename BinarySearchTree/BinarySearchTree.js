@@ -104,6 +104,77 @@ class BinarySearchTree {
     this._postOrder(node.right)
     console.log(node.e)
   }
+
+  // 寻找二分搜索树的最小元素
+  minimum () {
+    if (this.size === 0) {
+      throw new Error('BST is empty')
+    }
+
+    return this._minimum(this.root).e
+  }
+
+  _minimum (node) {
+    if (node.left === null) {
+      return node
+    }
+    return this._minimum(node.left)
+  }
+
+  // 寻找二分搜索树最大值
+  maximum () {
+    if (this.size === 0) {
+      throw new Error('BST is empty')
+    }
+
+    return this._maximum(this.root).e
+  }
+
+  _maximum (node) {
+    if (node.right === null) {
+      return node
+    }
+
+    return this._maximum(node.right)
+  }
+
+  // 删除最小节点
+  removeMin () {
+    let ret = this.minimum()
+    this.root = this._removeMin(this.root)
+    return ret
+  }
+
+  _removeMin (node) {
+    if (node.left === null) {
+      let rightNode = node.right
+      node.right = null
+      this.size--
+      return rightNode
+    }
+
+    node.left = this._removeMin(node.left)
+    return node
+  }
+
+  // 删除最大节点
+  removeMax () {
+    let ret = this.maximum()
+    this.root = this._removeMax(this.root)
+    return ret
+  }
+
+  _removeMax (node) {
+    if (node.right === null) {
+      let leftNode = node.left
+      node.left = null
+      this.size--
+      return leftNode
+    }
+
+    node.right = this._removeMax(node.right)
+    return node
+  }
 }
 
 class Node {
