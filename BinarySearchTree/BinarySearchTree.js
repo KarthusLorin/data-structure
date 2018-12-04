@@ -175,6 +175,49 @@ class BinarySearchTree {
     node.right = this._removeMax(node.right)
     return node
   }
+
+  // 删除元素为e的节点
+  remove (e) {
+    this.root = this._remove(this.root, e)
+  }
+
+  _remove (node, e) {
+    if (node === null) {
+      return null
+    }
+    if (e < node.e) {
+      this._remove(node.left, e)
+    } else if (e > node.e) {
+      this._remove(node.right, e)
+    } else {
+      // e === node.e
+      // 待删除节点左子树为空的情况
+      if (node.left === null) {
+        let rightNode = node.right
+        node.right = null
+        this.size--
+        return rightNode
+      }
+      // 待删除节点右子树为空的情况
+      if (node.right === null) {
+        let leftNode = node.left
+        node.left = null
+        this.size--
+        return leftNode
+      }
+
+      // 待删除节点左右子树均不为空的情况
+      // 找到比待删除节点大的最小节点，即待删除节点右子树的最小节点
+      // 用这个节点顶替待删除节点的位置
+      let successor = this.minimum(node.right)
+      successor.right = this.removeMin(node.right)
+      successor.left = node.left
+
+      node.left = node.right = null
+
+      return successor
+    }
+  }
 }
 
 class Node {
